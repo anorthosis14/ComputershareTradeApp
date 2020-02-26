@@ -8,11 +8,7 @@
 # Ignore generated files
 [Bb]in/
 [Oo]bj/
-TestResults/
 logs/
-
-# Test Coverage data
-BdpApiTests/lcov.info
 
 # This happens sometimes in VS
 *.csproj.user
