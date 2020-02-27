@@ -31,6 +31,8 @@ namespace ComputerShareTradeApp
 
             var tradeData = program.CalculateMaxProfit(buyDataDict, sellDataDict);
 
+            program.CalculateMaxProfitWithNewInstructions(buyDataDict, sellDataDict);
+
             if (tradeData != null)
             {
                 Console.WriteLine(tradeData.TradeDays());
@@ -40,6 +42,41 @@ namespace ComputerShareTradeApp
                 Console.WriteLine("No profit could be made");
             }
 
+        }
+
+        /*
+         * This is created as an example of accepting a number of datasets
+         * and returning the best buy and sell day of each dataset
+         */
+        public void CalculateMaxProfitWithNewInstructions(Dictionary<int, double> buyDataDict, Dictionary<int, double> sellDataDict)
+        {
+
+            Dictionary<int, double>[] dataSets = new Dictionary<int, double>[] {
+            buyDataDict,
+            sellDataDict
+            };
+
+            for (int i = 0; i < dataSets.Length; i++)
+            {
+                double maxProfit = 0;
+                double currentProfit;
+
+                TradeData tradeData = null;
+                for (int j = 1; j <= dataSets[i].Count-1; j++)
+                {
+                    for (int k = j+1; k <= dataSets[i].Count; k++)
+                    {
+                        currentProfit = dataSets[i][k] - dataSets[i][j];
+
+                        if (currentProfit > maxProfit)
+                        {
+                            maxProfit = currentProfit;
+                            tradeData = new TradeData(dataSets[i].Keys.ElementAt(j - 1), dataSets[i].Keys.ElementAt(k - 1), dataSets[i][j], dataSets[i][k]);
+                        }
+                    }
+                }
+                Console.WriteLine(tradeData.TradeDays());
+            }
         }
 
         public Dictionary<int, double> SplitData(string dataSet)
@@ -91,6 +128,12 @@ namespace ComputerShareTradeApp
 
             TradeData tradeData = null;
 
+            /* 
+            * if this was taking only one data set at a time
+            * would look like the code below 
+            * int j = 1; j <= buyDataDict.Count-1; j++
+            * int k = j+1; k <= buyDataDict.Count; k++
+            */
             for (int j = 1; j <= buyDataDict.Count; j++)
             {
                 for (int k = j; k <= sellDataDict.Count; k++)
